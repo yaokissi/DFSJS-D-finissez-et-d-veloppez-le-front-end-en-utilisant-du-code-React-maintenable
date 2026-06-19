@@ -1,7 +1,7 @@
 // src/app/pages/Home.tsx
 import type { FC } from 'react';
 import { Pie } from 'react-chartjs-2';
-import { useOlympicsData } from '../hooks/useOlympicsData';
+import { useOlympicsData } from '../hooks/UseOlympicsData';
 import { Indicator } from '../components/Indicator';
 import type{ Country } from '../models/olympics';
 
