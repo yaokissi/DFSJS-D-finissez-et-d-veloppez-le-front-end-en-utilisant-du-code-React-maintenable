@@ -45,6 +45,7 @@ const Home: FC = () => {
   const totalParticipatingCountries = data ? data.length : 0
   const totalGamesEditions = 5
 
+  // ✅ ACTION : Remplacé par `if (isLoading || !data)` grâce au Custom Hook.
   if (!data) {
     return <div>Chargement...</div>
   }
@@ -89,7 +90,7 @@ const Country: FC = () => {
   // Logique à déplacer dans un Hook métier ou à typée avec `Country `.
   const country: any = olympicsData.find((c: any) => c.id === Number(id))
 
-  console.log('Country loaded:', country) // 🗑️ Supprimé
+  console.log('Country loaded:', country) 
 
   // ... (Même logique de refactoring que pour Home : typage, extraction des indicateurs avec le composant réutilisable Indicator, etc.)
   
