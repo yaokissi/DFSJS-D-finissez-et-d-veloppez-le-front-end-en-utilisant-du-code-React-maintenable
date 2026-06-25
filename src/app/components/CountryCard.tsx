@@ -1,4 +1,3 @@
-// src/app/components/CountryCard.tsx
 import type { FC } from 'react';
 import type { Country } from '../models/olympics';
 

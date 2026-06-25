@@ -1,7 +1,6 @@
-// src/app/pages/Home.tsx
 import type { FC } from 'react';
 import { useData } from '../hooks/UseData';
-import { Indicator } from '../components/Indicator';
+import { HeaderComponent, type IndicatorData } from '../components/HeaderComponent';
 import { MedalChart } from '../components/MedalChart';
 
 import {
@@ -27,9 +26,9 @@ export const Home: FC = () => {
     const totalParticipatingCountries = data.length;
     const totalGamesEditions = data[0].participations.length;
 
-    const indicatorsData = [
-        { title: 'Pays participants', value: totalParticipatingCountries, color: 'text-blue-400' },
-        { title: 'Éditions des JO', value: totalGamesEditions, color: 'text-green-400' },
+    const dashboardIndicators: IndicatorData[] = [
+        { title: 'Pays participants', value: totalParticipatingCountries, },
+        { title: 'Éditions des JO', value: totalGamesEditions, },
     ];
 
 
@@ -47,15 +46,10 @@ export const Home: FC = () => {
                     </p>
                 </div>
 
-                <div className="mb-2">
-                    {indicatorsData.map((indicator, index) => (
-                        <Indicator
-                            key={index}
-                            title={indicator.title}
-                            value={indicator.value}
-                        />
-                    ))}
-                </div>
+                <HeaderComponent
+                    title="Médailles par pays"
+                    indicators={dashboardIndicators}
+                />
 
                 <div className="mb-8">
                     <MedalChart countries={data} />
