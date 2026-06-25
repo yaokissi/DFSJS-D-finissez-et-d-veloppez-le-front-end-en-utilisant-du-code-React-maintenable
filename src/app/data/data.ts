@@ -5,8 +5,20 @@ export const olympicsData: Country[] = [
     id: 1,
     name: 'États-Unis',
     participations: [
-      { id: 1, year: 2020, city: 'Tokyo', medalsCount: 113, athleteCount: 613 },
-      { id: 2, year: 2016, city: 'Rio', medalsCount: 121, athleteCount: 555 },
+      { 
+        id: 1, 
+        year: 2020, 
+        city: 'Tokyo', 
+        medalsCount: 113, 
+        athleteCount: 613 
+      },
+      { 
+        id: 2, 
+        year: 2016, 
+        city: 'Rio', 
+        medalsCount: 121, 
+        athleteCount: 555 
+      },
       {
         id: 3,
         year: 2012,
@@ -14,7 +26,13 @@ export const olympicsData: Country[] = [
         medalsCount: 104,
         athleteCount: 530,
       },
-      { id: 4, year: 2008, city: 'Pékin', medalsCount: 112, athleteCount: 596 },
+      {
+        id: 4, 
+        year: 2008, 
+        city: 'Pékin', 
+        medalsCount: 112, 
+        athleteCount: 596 
+      },
       {
         id: 5,
         year: 2004,

@@ -1,6 +1,6 @@
 // src/app/pages/Home.tsx
 import type { FC } from 'react';
-import { useOlympicsData } from '../hooks/UseOlympicsData';
+import { useData } from '../hooks/UseData';
 import { Indicator } from '../components/Indicator';
 import { MedalChart } from '../components/MedalChart';
 
@@ -17,7 +17,7 @@ ChartJS.register(
     Legend);
 
 export const Home: FC = () => {
-    const { data } = useOlympicsData();
+    const { data } = useData();
 
     if (!data) {
         return <div className="min-h-screen ml-auto mr-auto bg-gray-900 text-white p-8">Chargement...</div>;
@@ -25,7 +25,7 @@ export const Home: FC = () => {
 
 
     const totalParticipatingCountries = data.length;
-    const totalGamesEditions = 5;
+    const totalGamesEditions = data[0].participations.length;
 
     const indicatorsData = [
         { title: 'Pays participants', value: totalParticipatingCountries, color: 'text-blue-400' },
