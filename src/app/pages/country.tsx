@@ -1,102 +1,133 @@
-const Country: FC = () => {
-  const { id } = useParams()
+import type { FC } from 'react';
+import { useParams, Link } from 'react-router-dom'; 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import { useData } from '../hooks/UseData'; 
+import { HeaderComponent, type IndicatorData } from '../components/HeaderComponent';
+import type { Country as CountryType } from '../models/olympics'; 
 
-  // Anti-pattern 5 — console.log à retirer.
-  console.log('Loading country with id:', id)
-  // Anti-pattern 3 — Utilisation de `any` pour l'état ne permettant pas de bénéficier de TypeScript.
-  const country: any = olympicsData.find((c: any) => c.id === Number(id))
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-  // Anti-pattern 5 — console.log à retirer.
-  console.log('Country loaded:', country)
 
-  const totalMedals = country.participations.reduce(
-    (sum: any, p: any) => sum + p.medalsCount,
-    0,
-  )
-  const totalAthletes = country.participations.reduce(
-    (sum: any, p: any) => sum + p.athleteCount,
-    0,
-  )
-  const totalParticipations = country.participations.length
+export const Country: FC = () => {
+ // hook useParams pour récupérer l’ID du pays depuis l'URL
+  const { id } = useParams<{ id: string }>();
 
-  // Anti-pattern 10 — Préparation des données du graphique dans le composant — extraire dans une fonction ou un hook pour séparer UI et logique. https://react.dev/learn/thinking-in-react
+  // hook useData 
+  const { data, isLoading } = useData();
+
+  // chargement
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <p className="text-xl animate-pulse">Chargement des données du pays...</p>
+      </div>
+    );
+  }
+
+  // Gestion d'erreurs (Données introuvables ou ID manquant)
+  if (!data || !id) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center gap-4">
+        <p className="text-2xl text-red-400 font-bold">Erreur : Données introuvables.</p>
+        <Link to="/" className="text-teal-400 hover:underline">&larr; Retour au Dashboard</Link>
+      </div>
+    );
+  }
+
+  // Recherche du pays correspondant à l'ID numérique
+  const countryId = Number(id);
+  const currentCountry = data.find((c: CountryType) => c.id === countryId);
+
+  // Gérer le cas d'erreur (ID inexistant dans le tableau)
+  if (!currentCountry) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center gap-4">
+        <p className="text-2xl text-red-400 font-bold">Erreur : Ce pays n'existe pas.</p>
+        <Link to="/" className="text-teal-400 hover:underline">&larr; Retour au Dashboard</Link>
+      </div>
+    );
+  }
+
+  // Calculs métiers des données du pays 
+  const totalParticipations = currentCountry.participations.length;
+  const totalMedals = currentCountry.participations.reduce((sum: number, p) => sum + p.medalsCount, 0);
+  const totalAthletes = currentCountry.participations.reduce((sum: number, p) => sum + p.athleteCount, 0);
+
+  // Utilisation du composant indicator 
+  const countryIndicators: IndicatorData[] = [
+    { title: 'Participations', value: totalParticipations },
+    { title: 'Total médailles', value: totalMedals },
+    { title: 'Total athlètes', value: totalAthletes },
+  ];
+
+  // Configuration du graphique d'évolution par année
   const evolutionData = {
-    labels: country.participations.map((p: any) => p.year.toString()),
+    labels: currentCountry.participations.map((p) => p.year.toString()),
     datasets: [
       {
         label: 'Nombre de médailles',
-        data: country.participations.map((p: any) => p.medalsCount),
+        data: currentCountry.participations.map((p) => p.medalsCount),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         tension: 0.3,
       },
     ],
-  }
+  };
 
   const evolutionOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: 'top' as const,
-        labels: {
-          color: 'white',
-        },
-      },
+      legend: { position: 'top' as const, labels: { color: 'white' } },
     },
     scales: {
-      y: {
-        ticks: {
-          color: 'white',
-        },
-        grid: {
-          color: 'rgba(255, 255, 255, 0.1)',
-        },
-      },
-      x: {
-        ticks: {
-          color: 'white',
-        },
-        grid: {
-          color: 'rgba(255, 255, 255, 0.1)',
-        },
-      },
+      y: { ticks: { color: 'white' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+      x: { ticks: { color: 'white' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
     },
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">{country.name}</h1>
-
-        {/* Anti-pattern 8 — Cartes dupliquées avec Home — extraire en composant réutilisable (Indicator.tsx). */}
-        <div className="mb-2">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-2">
-            <h3 className="text-xl font-semibold mb-2">Participations</h3>
-            <p className="text-4xl font-bold text-blue-400">
-              {totalParticipations}
-            </p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-2">
-            <h3 className="text-xl font-semibold mb-2">Total médailles</h3>
-            <p className="text-4xl font-bold text-yellow-400">{totalMedals}</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold mb-2">Total athlètes</h3>
-            <p className="text-4xl font-bold text-green-400">{totalAthletes}</p>
-          </div>
+        
+        <div className="mb-6">
+          <Link to="/" className="inline-block text-teal-400 hover:text-teal-300 font-semibold transition-colors">
+            &larr; Retour au Dashboard
+          </Link>
         </div>
 
-        <div className="bg-gray-800 p-8 rounded-lg shadow-xl">
+        {/* Rendu dynamique de l'en-tête avec HeaderComponent */}
+        <HeaderComponent title={currentCountry.name} indicators={countryIndicators} />
+
+        {/* Zone du graphique avec Line */}
+        <div className="bg-gray-800 p-4 md:p-8 rounded-lg shadow-xl mt-8 border border-gray-700">
           <div style={{ height: '400px' }}>
             <Line data={evolutionData} options={evolutionOptions} />
           </div>
         </div>
 
-        <div className="text-sm text-gray-400">
+        <div className="text-sm text-gray-400 mt-4 text-center md:text-left">
           <p>Données des 5 dernières éditions des Jeux Olympiques</p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

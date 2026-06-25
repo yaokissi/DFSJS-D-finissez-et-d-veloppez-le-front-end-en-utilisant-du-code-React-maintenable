@@ -12,7 +12,7 @@ src/
 ├── App.tsx                 # Point d'entrée et routeur global (React Router)
 └── app/
     ├── components/         # Composants d'interface réutilisables
-    │   ├── CountryCard.tsx
+    │   ├── HeaderComponent.tsx
     │   ├── Indicator.tsx
     │   └── MedalChart.tsx
     ├── data/               # Données statiques

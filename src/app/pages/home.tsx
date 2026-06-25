@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useData } from '../hooks/UseData';
 import { HeaderComponent, type IndicatorData } from '../components/HeaderComponent';
 import { MedalChart } from '../components/MedalChart';
@@ -17,6 +18,9 @@ ChartJS.register(
 
 export const Home: FC = () => {
     const { data } = useData();
+    const navigate = useNavigate();
+
+    
 
     if (!data) {
         return <div className="min-h-screen ml-auto mr-auto bg-gray-900 text-white p-8">Chargement...</div>;
@@ -30,7 +34,10 @@ export const Home: FC = () => {
         { title: 'Pays participants', value: totalParticipatingCountries, },
         { title: 'Éditions des JO', value: totalGamesEditions, },
     ];
-
+    // fonction pour gérer le clic sur un pays
+    const handleCountryClick = (id: number) => {
+        navigate(`/country/${id}`);
+    };
 
     return (
         <div className="min-h-screen bg-gray-900 text-white p-8">
@@ -52,7 +59,7 @@ export const Home: FC = () => {
                 />
 
                 <div className="mb-8">
-                    <MedalChart countries={data} />
+                    <MedalChart countries={data} onCountryClick={handleCountryClick}/>
                 </div>
                 <div className="mt-8">
                     <div className="text-sm text-gray-400 mb-4">

@@ -1,13 +1,17 @@
 import type { FC } from 'react';
 import { Pie } from 'react-chartjs-2';
+import type { ChartEvent, ActiveElement } from 'chart.js';
 import type { Country } from '../models/olympics';
 
 interface MedalChartProps {
   countries: Country[];
+  // fonction pour gérer le clic sur un pays
+  onCountryClick: (id: number) => void;
 }
 
-export const MedalChart: FC<MedalChartProps> = ({ countries }) => {
-
+export const MedalChart: FC<MedalChartProps> = ({ countries, onCountryClick }) => {
+  
+  
     const calculateTotalMedals = (country: Country) => {
     return country.participations.reduce((sum, p) => sum + p.medalsCount, 0);
   };
@@ -37,6 +41,15 @@ export const MedalChart: FC<MedalChartProps> = ({ countries }) => {
         position: 'bottom' as const,
         labels: { color: 'white' },
       },
+    },
+    onClick: (_event: ChartEvent, elements: ActiveElement[]) => {
+      if (elements.length > 0) {
+        const index = elements[0].index
+        const country = countries[index]
+        onCountryClick(country.id)
+
+      }
+
     },
   };
 
