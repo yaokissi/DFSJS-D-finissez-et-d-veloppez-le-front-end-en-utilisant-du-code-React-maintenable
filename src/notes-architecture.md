@@ -45,24 +45,24 @@ src/app/
 - La récupération et la transformation des données vers `src/app/hooks/`.
 - Les types `Country`, `Participation`, `OlympicsData`, etc. vers `src/app/models/`.
 
+```
 src/
-├── app/
-│   └── app.tsx
-├── app/components/
-│   ├── StatCard.tsx
-│   ├── CountryCard.tsx
-│   ├── CountryMedalsChart.tsx
-│   └── CountryEvolutionChart.tsx
-├── app/pages/
-│   ├── HomePage.tsx
-│   └── CountryPage.tsx
-├── app/hooks/
-│   ├── useOlympicsData.ts
-│   └── useCountry.ts
-├── app/models/
-│   └── olympics.ts
-└── app/data/
-    └── olympicsData.ts
+├── App.tsx                 # Point d'entrée et routeur global (React Router)
+└── app/
+    ├── components/         # Composants d'interface réutilisables
+    │   ├── CountryCard.tsx
+    │   ├── Indicator.tsx
+    │   └── MedalChart.tsx
+    ├── data/               # Données statiques
+    │   └── data.ts     
+    ├── hooks/              # Logique métier et appels de données
+    │   └── useData.ts      
+    ├── models/             # Interfaces et typages stricts TypeScript
+    │   └── olympics.ts     
+    └── pages/              # Vues principales de l'application
+        ├── Country.tsx
+        └── Home.tsx
+```
 
 ## Pourquoi cette organisation
 
