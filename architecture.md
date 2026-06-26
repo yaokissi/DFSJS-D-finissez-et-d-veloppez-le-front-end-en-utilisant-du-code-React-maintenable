@@ -7,36 +7,37 @@ Cette documentation a pour but de présenter la structure modulaire de l'applica
 
 L'application suit une architecture qui sépare les responsabilités. Le code source se trouve dans le dossier `src/app/`
 
-```text
 src/
-├── App.tsx                 # Point d'entrée et routeur global (React Router)
+├── App.tsx                 # Déclaration des routes (React Router) et assemblage global
+├── main.tsx                # Point d'entrée de l'application
+├── index.css               # Directives de styles globaux et Tailwind CSS
 └── app/
-    ├── components/         # Composants d'interface réutilisables
-    │   ├── HeaderComponent.tsx
-    │   ├── Indicator.tsx
-    │   └── MedalChart.tsx
+    ├── components/         # Composants UI réutilisables ("Dumb Components")
+    │   ├── HeaderComponent.tsx # En-tête dynamique recevant un titre et des indicateurs
+    │   ├── Indicator.tsx       # Carte KPI affichant un titre et une valeur numérique
+    │   └── MedalChart.tsx      # Composant graphique pour le diagramme circulaire des médailles
     ├── data/               # Données statiques
-    │   └── data.ts     
-    ├── hooks/              # Logique métier et appels de données
-    │   └── useData.ts      
-    ├── models/             # Interfaces et typages stricts TypeScript
-    │   └── olympics.ts     
-    └── pages/              # Vues principales de l'application
-        ├── Country.tsx
-        └── Home.tsx
-```
+    │   └── data.ts         # Données historiques simulées des Jeux Olympiques
+    ├── hooks/              # Logique métier et requêtes de données
+    │   └── UseData.ts      # Custom hook simulant le chargement asynchrone des données
+    ├── models/             # Modèles et interfaces TypeScript
+    │   └── olympics.ts     # Typages stricts (Country, Participation)
+    └── pages/              # Vues principales de l'application ("Smart Components")
+        ├── home.tsx        # Page d'accueil avec indicateurs généraux et graphique circulaire
+        ├── country.tsx     # Page de détails d'un pays avec indicateurs spécifiques et graphique linéaire
+        └── NotFound.tsx    # Page d'erreur 404 affichée pour les URL inconnues
 
 ## Composants ("Smart" et "Dumb")
 
 - **Composants "Smart"**
-  Ce sont les composants du dossier Pages (Home.tsx, Country.tsx).
+  Ce sont les composants du dossier Pages (Home.tsx, Country.tsx, NotFound.tsx).
   
   **Rôle** : Ils sont responsables de la logique métier. Ils sont connectés aux données via les Custom Hooks, gèrent les états de chargement, et distribuent les informations aux composants enfants.
   
   **Caractéristique** : Ils n'ont pas ou peu de code de design complexe, ils se contentent d'assembler les éléments.
 
 - **Composants "Dumb"**
-  Ce sont les composants du dossier Components (Indicator.tsx, CountryCard.tsx, MedalChart.tsx).
+  Ce sont les composants du dossier Components (Indicator.tsx, MedalChart.tsx, HeaderComponent.tsx).
   
   **Rôle** : Leur unique travail est d'afficher de l'UI (Interface Utilisateur) à partir des propriétés (props) qu'on leur donne.
   
