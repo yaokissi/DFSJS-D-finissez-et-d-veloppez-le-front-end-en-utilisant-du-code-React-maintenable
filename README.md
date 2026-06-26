@@ -1,122 +1,109 @@
-# TéléSport - Olympic Games History Dashboard
+# 🏆 TéléSport - Historique des Jeux Olympiques
 
-Interactive web application to visualize historical performance data of countries in the Olympic Games.
+Application web interactive permettant de visualiser et d'analyser l'historique des performances des pays aux Jeux Olympiques. Ce projet a été développé en **React** et **TypeScript** avec une architecture modulaire propre et évolutive.
 
-## 🚀 Features
+---
 
-- **Interactive Dashboard**: View medal counts by country with interactive charts
-- **Country Details**: Explore detailed statistics for each participating country
-- **Data Visualization**: Interactive charts powered by Chart.js
-- **Responsive Design**: Optimized for desktop and mobile devices
-- **Modern Stack**: Built with React 19, TypeScript, and Tailwind CSS
+## 🚀 Fonctionnalités
 
-## 📋 Prerequisites
+- **Tableau de Bord Interactif (Dashboard)** : Visualisation du nombre total de médailles par pays sous forme de graphique circulaire interactif (Pie chart).
+- **Détails par Pays** : Graphique d'évolution temporelle (Line chart) présentant le nombre de médailles remportées lors des 5 dernières éditions des JO.
+- **Indicateurs Clés de Performance (KPIs)** :
+  - **Dashboard** : Nombre total de pays participants, nombre d'éditions des JO.
+  - **Page Détails** : Nombre de participations, total de médailles remportées, total d'athlètes envoyés.
+- **Navigation Fluide** : Routage dynamique et gestion des erreurs d'URL (redirection vers une page 404 personnalisée).
+- **Design Adaptatif (Responsive)** : Interface optimisée pour l'ensemble des écrans (desktop, tablettes et mobiles).
 
-- **Node.js** 22 LTS or higher
-- **npm** (included with Node.js)
+---
 
-## 🛠️ Installation
+## 🛠️ Stack Technique & Prérequis
 
-Clone the repository:
+### Prérequis
+- **Node.js** : Version 22 LTS ou supérieure
+- **npm** : Installé automatiquement avec Node.js
 
+### Stack Technique
+- **React 19** : Bibliothèque UI pour la gestion des composants et du state.
+- **TypeScript 5.9** : Typage statique fort pour sécuriser les données et le code.
+- **Vite 7** : Serveur de développement ultra-rapide et bundler de production.
+- **Tailwind CSS 4** : Framework CSS utilitaire pour un design moderne et responsive.
+- **React Router 6** : Gestion du routage et de la navigation SPA.
+- **Chart.js 4** & **React Chartjs 2** : Création de graphiques interactifs (Pie & Line).
+- **ESLint** : Validation de la qualité du code et respect des normes.
+
+---
+
+## ⚙️ Installation et Utilisation
+
+### 1. Cloner le projet
 ```bash
-git clone https://github.com/openclassrooms/p2-dfsjs.git
-cd p2-dfsjs
+git clone https://github.com/yaokissi/DFSJS-D-finissez-et-d-veloppez-le-front-end-en-utilisant-du-code-React-maintenable.git
+cd DFSJS-D-finissez-et-d-veloppez-le-front-end-en-utilisant-du-code-React-maintenable
 ```
 
-Install dependencies:
-
+### 2. Installer les dépendances
 ```bash
 npm install
 ```
 
-## 🎯 Usage
-
-### Development Server
-
-Start the development server:
-
+### 3. Lancer le serveur de développement
 ```bash
 npm run dev
 ```
+L'application sera accessible localement à l'adresse : [http://localhost:5173](http://localhost:5173)
 
-The application will be available at [http://localhost:5173](http://localhost:5173)
-
-### Production Build
-
-Build the application for production:
-
+### 4. Générer le build de production
+Pour compiler et optimiser l'application pour la production :
 ```bash
 npm run build
 ```
 
-### Linting
-
-Run the linter to check code quality:
-
+### 5. Lancer le Linter
+Pour vérifier le respect des standards et la propreté du code :
 ```bash
 npm run lint
 ```
 
-## 📁 Project Structure
+---
 
+## 📁 Structure du Projet
+
+L'application respecte les principes d'une architecture modulaire qui sépare la logique métier, la gestion des données et l'affichage. Le code source est structuré dans `src/app/` :
+
+```text
+src/
+├── App.tsx                 # Déclaration des routes (React Router) et assemblage global
+├── main.tsx                # Point d'entrée de l'application
+├── index.css               # Directives de styles globaux et Tailwind CSS
+└── app/
+    ├── components/         # Composants UI réutilisables ("Dumb Components")
+    │   ├── HeaderComponent.tsx # En-tête dynamique recevant un titre et des indicateurs
+    │   ├── Indicator.tsx       # Carte KPI affichant un titre et une valeur numérique
+    │   └── MedalChart.tsx      # Composant graphique pour le diagramme circulaire des médailles
+    ├── data/               # Données statiques
+    │   └── data.ts         # Données historiques simulées des Jeux Olympiques
+    ├── hooks/              # Logique métier et requêtes de données
+    │   └── UseData.ts      # Custom hook simulant le chargement asynchrone des données
+    ├── models/             # Modèles et interfaces TypeScript
+    │   └── olympics.ts     # Typages stricts (Country, Participation)
+    └── pages/              # Vues principales de l'application ("Smart Components")
+        ├── home.tsx        # Page d'accueil avec indicateurs généraux et graphique circulaire
+        ├── country.tsx     # Page de détails d'un pays avec indicateurs spécifiques et graphique linéaire
+        └── NotFound.tsx    # Page d'erreur 404 affichée pour les URL inconnues
 ```
-p2-dfsjs/
-├── public/              # Static public assets
-├── src/
-│   ├── App.tsx         # Main application component
-│   ├── main.tsx        # React entry point
-│   └── index.css       # Global styles
-├── index.html          # Main HTML page
-├── package.json        # Project dependencies
-├── tsconfig.json       # TypeScript configuration
-├── vite.config.ts      # Vite configuration
-├── tailwind.config.js  # Tailwind CSS configuration
-└── .eslintrc.cjs       # ESLint configuration
-```
-
-## 🔧 Tech Stack
-
-- **React 19** - UI library with latest features
-- **TypeScript** - Static type checking
-- **Vite 5** - Fast build tool and dev server
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **React Router 6** - Client-side routing
-- **Chart.js** - Interactive data visualization
-- **ESLint** - Code quality and consistency
-
-## 📊 Data
-
-The application currently uses mock data to simulate Olympic Games statistics. This architecture is designed to facilitate future integration with a REST API backend.
-
-## 🎨 Design
-
-The application features:
-
-- Clean, modern interface optimized for data visualization
-- Responsive layout adapting to all screen sizes
-- Interactive charts with hover effects
-- Smooth navigation between pages
-
-## 📚 Documentation
-
-For more information on the technologies used:
-
-- [React Documentation](https://react.dev)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [Vite Guide](https://vitejs.dev)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [React Router Documentation](https://reactrouter.com)
-- [Chart.js Documentation](https://www.chartjs.org/docs/latest/)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📝 License
-
-This project is available for educational and personal use.
 
 ---
 
-**Built with React 19 + TypeScript + Vite + Tailwind CSS**
+## 🧠 Choix Techniques & Architecture
+
+1. **Composants Smart & Dumb** :
+   - Les **Pages** (Smart) gèrent la logique d'état, récupèrent les données à l'aide de hooks et effectuent les calculs métiers.
+   - Les **Composants** (Dumb) se contentent de recevoir des données via leurs `props` et de les afficher. Cela garantit une forte réutilisabilité et facilite les tests.
+2. **Custom Hooks pour les Données** :
+   - L'accès aux données est encapsulé dans le hook `useData`. Actuellement branché sur des données mockées avec un délai de chargement simulé (`setTimeout`), il permettra d'intégrer une API REST à l'avenir en modifiant uniquement ce hook.
+3. **Respect des règles de Hooks** :
+   - L'ordre des hooks dans chaque composant (notamment dans `country.tsx`) est rigoureusement structuré pour éviter les appels conditionnels ou après des retours anticipés (`early returns`).
+4. **Typage strict TypeScript** :
+   - Aucun type `any` n'est utilisé dans le code source de l'application afin de garantir une fiabilité maximale au build et d'éviter les erreurs de structure de données en production.
+5. **Gestion d'Erreur & Redirection 404** :
+   - Si un utilisateur tente d'accéder à un pays avec un ID inexistant, le composant `Country` effectue une redirection automatique vers la route `/404` grâce à `useNavigate` et un effet contrôlé, évitant tout écran blanc ou erreur de rendu.
