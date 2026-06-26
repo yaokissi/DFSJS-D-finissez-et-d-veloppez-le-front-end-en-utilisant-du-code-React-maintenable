@@ -1,10 +1,10 @@
-# 🏆 TéléSport - Historique des Jeux Olympiques
+# TéléSport - Historique des Jeux Olympiques
 
 Application web interactive permettant de visualiser et d'analyser l'historique des performances des pays aux Jeux Olympiques. Ce projet a été développé en **React** et **TypeScript** avec une architecture modulaire propre et évolutive.
 
 ---
 
-## 🚀 Fonctionnalités
+## Fonctionnalités
 
 - **Tableau de Bord Interactif (Dashboard)** : Visualisation du nombre total de médailles par pays sous forme de graphique circulaire interactif (Pie chart).
 - **Détails par Pays** : Graphique d'évolution temporelle (Line chart) présentant le nombre de médailles remportées lors des 5 dernières éditions des JO.
@@ -16,7 +16,7 @@ Application web interactive permettant de visualiser et d'analyser l'historique 
 
 ---
 
-## 🛠️ Stack Technique & Prérequis
+##  Stack Technique & Prérequis
 
 ### Prérequis
 - **Node.js** : Version 22 LTS ou supérieure
@@ -33,7 +33,7 @@ Application web interactive permettant de visualiser et d'analyser l'historique 
 
 ---
 
-## ⚙️ Installation et Utilisation
+##  Installation et Utilisation
 
 ### 1. Cloner le projet
 ```bash
@@ -66,7 +66,7 @@ npm run lint
 
 ---
 
-## 📁 Structure du Projet
+## Structure du Projet
 
 L'application respecte les principes d'une architecture modulaire qui sépare la logique métier, la gestion des données et l'affichage. Le code source est structuré dans `src/app/` :
 
@@ -94,7 +94,7 @@ src/
 
 ---
 
-## 🧠 Choix Techniques & Architecture
+## Choix Techniques & Architecture
 
 1. **Composants Smart & Dumb** :
    - Les **Pages** (Smart) gèrent la logique d'état, récupèrent les données à l'aide de hooks et effectuent les calculs métiers.
