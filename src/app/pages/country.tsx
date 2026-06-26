@@ -1,5 +1,5 @@
-import type { FC } from 'react';
-import { useParams, Link } from 'react-router-dom'; 
+import { type FC, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,9 +11,10 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { useData } from '../hooks/UseData'; 
+
+import { useData } from '../hooks/UseData';
 import { HeaderComponent, type IndicatorData } from '../components/HeaderComponent';
-import type { Country as CountryType } from '../models/olympics'; 
+import type { Country as CountryType } from '../models/olympics';
 
 ChartJS.register(
   CategoryScale,
@@ -27,13 +28,22 @@ ChartJS.register(
 
 
 export const Country: FC = () => {
- // hook useParams pour récupérer l’ID du pays depuis l'URL
+  // hook useParams pour récupérer l’ID du pays depuis l'URL
   const { id } = useParams<{ id: string }>();
-
-  // hook useData 
   const { data, isLoading } = useData();
+  const navigate = useNavigate();
 
-  // chargement
+  // Recherche du pays correspondant à l'ID numérique
+  const countryId = Number(id);
+  const currentCountry = data?.find((c: CountryType) => c.id === countryId);
+
+  useEffect(() => {
+    // Si on a fini de charger, mais qu'on ne trouve pas le pays :
+    if (!isLoading && !currentCountry) {
+      navigate('/404', { replace: true });
+    }
+  }, [isLoading, data, currentCountry, navigate]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
@@ -42,7 +52,7 @@ export const Country: FC = () => {
     );
   }
 
-  // Gestion d'erreurs (Données introuvables ou ID manquant)
+  // Gestion d'erreurs 
   if (!data || !id) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center gap-4">
@@ -51,22 +61,14 @@ export const Country: FC = () => {
       </div>
     );
   }
-
-  // Recherche du pays correspondant à l'ID numérique
-  const countryId = Number(id);
-  const currentCountry = data.find((c: CountryType) => c.id === countryId);
-
-  // Gérer le cas d'erreur (ID inexistant dans le tableau)
-  if (!currentCountry) {
-    return (
-      <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center gap-4">
-        <p className="text-2xl text-red-400 font-bold">Erreur : Ce pays n'existe pas.</p>
-        <Link to="/" className="text-teal-400 hover:underline">&larr; Retour au Dashboard</Link>
-      </div>
-    );
+if (!currentCountry) {
+    return null;
   }
+ 
 
-  // Calculs métiers des données du pays 
+
+
+  // Calculs métiers des données du pays avec les types number 
   const totalParticipations = currentCountry.participations.length;
   const totalMedals = currentCountry.participations.reduce((sum: number, p) => sum + p.medalsCount, 0);
   const totalAthletes = currentCountry.participations.reduce((sum: number, p) => sum + p.athleteCount, 0);
@@ -107,7 +109,7 @@ export const Country: FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        
+
         <div className="mb-6">
           <Link to="/" className="inline-block text-teal-400 hover:text-teal-300 font-semibold transition-colors">
             &larr; Retour au Dashboard
